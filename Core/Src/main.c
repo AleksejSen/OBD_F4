@@ -46,6 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t usb_rx_buff[128]; //buffer created in main
 
 /* USER CODE END PV */
 
@@ -101,7 +102,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  printf("Works!!! %d\r\n", HAL_GetTick());
+	  printf("Works!!! %d Buffer: %s\r\n", HAL_GetTick(), usb_rx_buff);
 	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
 	  HAL_Delay(700);
   }
