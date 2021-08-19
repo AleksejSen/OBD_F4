@@ -43,6 +43,10 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 
+extern CAN_RxHeaderTypeDef can1RxHeader;
+extern uint8_t data_rx;
+extern uint8_t can_data_rx_flag;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,6 +61,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+extern CAN_HandleTypeDef hcan1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -198,6 +203,23 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles CAN1 RX0 interrupts.
+  */
+void CAN1_RX0_IRQHandler(void)
+{
+  /* USER CODE BEGIN CAN1_RX0_IRQn 0 */
+
+  /* USER CODE END CAN1_RX0_IRQn 0 */
+  HAL_CAN_IRQHandler(&hcan1);
+  /* USER CODE BEGIN CAN1_RX0_IRQn 1 */
+  HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &can1RxHeader, &data_rx);
+  can_data_rx_flag = 1;
+  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+
+  /* USER CODE END CAN1_RX0_IRQn 1 */
+}
 
 /**
   * @brief This function handles USB On The Go FS global interrupt.
